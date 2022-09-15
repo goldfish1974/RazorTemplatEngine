@@ -28,7 +28,7 @@ namespace RazorTemplateEngineTests
             var enterpeiseSystem = "Build Orbit";
             var application = "Marketing Application";
             var title = "Load Balanced Virtual Machines";
-            var jobStart = new JobStart(title, enterpeiseSystem, application,
+            var jobStart = new JobStart(false, title, enterpeiseSystem, application,
                 new List<VirtualMachine>
                 {
                     new VirtualMachine("A12345678", 90d, 27d),

@@ -18,7 +18,11 @@ namespace ConsoleApp1
             var enterpeiseSystem = "Build Orbit";
             var application = "Marketing Application";
             var title = "Load Balanced Virtual Machines";
-            var jobStart = new JobStart(title, enterpeiseSystem, application,
+
+            var razorTemplateEngine = new RazorTemplateEngineV2();
+
+
+            var jobStart = new JobStart(true, title, enterpeiseSystem, application,
                 new List<VirtualMachine>
                 {
                     new VirtualMachine("A12345678", 90d, 27d),
@@ -26,31 +30,31 @@ namespace ConsoleApp1
                     new VirtualMachine("C135791113", 47d, 63d)
                 });
 
-            var razorTemplateEngine = new RazorTemplateEngineV2();
+
             var htmlContent = await razorTemplateEngine.RenderTemplateAsync(jobStart);
-            
+
             var tempFile = Path.Combine(Path.GetTempPath(), "temp.html");
             await File.WriteAllTextAsync(tempFile, htmlContent);
             Process.Start(@"cmd.exe ", $@"/c {tempFile}");
 
-            ////SendEmail(htmlContent);
+            //SendEmail(htmlContent);
         }
 
         private static void SendEmail(string htmlBody)
         {
-            var fromAddress = new MailAddress("<From Email Address>", "<Display Name>");
-            var toAddress = new MailAddress("<To Email Address>", "<Display Name>");
+            var fromAddress = new MailAddress("nbolstad@ppca.com.au", "Nathan Bolstad");
+            var toAddress = new MailAddress("nbolstad@ppca.com.au", "Nathan Bolstad");
             var mailMessage = new MailMessage(fromAddress, toAddress);
             mailMessage.Subject = "Testing Razor Template Engine";
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = htmlBody;
 
-            var smtpClient = new SmtpClient("smtp.office365.com", 587);
-            smtpClient.EnableSsl = true;
-            smtpClient.UseDefaultCredentials = false;
+            var smtpClient = new SmtpClient("mail.ppca.com.au", 25);
+            smtpClient.EnableSsl = false;
+            //smtpClient.UseDefaultCredentials = false;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.Credentials = new System.Net.NetworkCredential("<Your Username>", "<Your Password>");
-            smtpClient.EnableSsl = true;
+            //smtpClient.Credentials = new System.Net.NetworkCredential("<Your Username>", "<Your Password>");
+            //smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
         }
     }

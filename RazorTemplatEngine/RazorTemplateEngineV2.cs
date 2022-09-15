@@ -32,8 +32,10 @@ namespace RazorTemplatEngine
         public RazorTemplateEngineV2()
         {
             var thisAssembly = Assembly.GetExecutingAssembly();
-            var viewAssembly = RelatedAssemblyAttribute.GetRelatedAssemblies(thisAssembly, false).Single();
-            var razorCompiledItems = new RazorCompiledItemLoader().LoadItems(viewAssembly);
+            //var viewAssembly = RelatedAssemblyAttribute.GetRelatedAssemblies(thisAssembly, false).Single();
+            //var razorCompiledItems = new RazorCompiledItemLoader().LoadItems(viewAssembly);
+            //var viewAssembly = RelatedAssemblyAttribute.GetRelatedAssemblies(thisAssembly, false).Single();
+            var razorCompiledItems = new RazorCompiledItemLoader().LoadItems(thisAssembly);
 
             foreach (var item in razorCompiledItems)
             {
@@ -47,6 +49,8 @@ namespace RazorTemplatEngine
             EnsureAllTemplatesExist(TemplateFolderName, templateNamePrefix);
 
             using var stringWriter = new StringWriter();
+
+
             await _htmlResourceFileProvider.LoadResource(TemplateFolderName, templateNamePrefix, ResourceType.Header, stringWriter);
             await stringWriter.WriteAsync(await RenderTemplateAsync(TemplateFolderName, templateNamePrefix, model));
             await _htmlResourceFileProvider.LoadResource(TemplateFolderName, templateNamePrefix, ResourceType.Footer, stringWriter);

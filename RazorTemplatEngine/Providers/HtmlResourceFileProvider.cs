@@ -35,6 +35,7 @@ namespace RazorTemplatEngine.Providers
             var resourceFileName = GetEmbeddedResourceName(templateFolderName, resourceFile, resourceType);
 
             var resourceName = _embeddedResourceFiles.Contains(resourceFileName) ? resourceFileName : defaultResourceName;
+
             return _fileProvider.GetFileInfo(resourceName).CreateReadStream();
         }
 
